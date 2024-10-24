@@ -1,4 +1,10 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  BadRequestException,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { AlertService } from './alert.service';
 import { Alert } from '../entities/alert.entity';
@@ -38,6 +44,12 @@ export class AlertController {
   async createAlert(
     @Body() body: { email: string; threshold: number; chain: Chain },
   ): Promise<Alert> {
+    if (!Object.values(Chain).includes(body.chain)) {
+      throw new BadRequestException(
+        `Invalid chain: ${body.chain}. Allowed values are: ${Object.values(Chain).join(', ')}`,
+      );
+    }
+
     return this.alertService.setAlert(body.email, body.threshold, body.chain);
   }
 
