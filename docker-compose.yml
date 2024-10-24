@@ -1,0 +1,39 @@
+version: '3.4'
+
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: blockchain
+      MYSQL_USER: salman
+      MYSQL_PASSWORD: salman
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  salmanhameed:
+    image: salmanhameed
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: db
+      DATABASE_USER: salman
+      DATABASE_PASSWORD: salman
+      DATABASE_NAME: blockchain
+      API_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImUyNmI1OTA3LWIxNWItNGQ4Yi04ZDhjLWI4YWRjYTc0MWJlYyIsIm9yZ0lkIjoiNDEzMTM2IiwidXNlcklkIjoiNDI0NTcyIiwidHlwZUlkIjoiNzkwMmEwMzAtMjI4NS00NDg2LTlhNDYtZGFkYjc2ZmRlMWNkIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3Mjk3Njc3MTcsImV4cCI6NDg4NTUyNzcxN30.lL_AHjYLJti9_7Lxfg6m9sIc8FXU2NMUa6_lOqxvlOg
+      EMAIL: salmanhameed454@gmail.com
+      MAIL_PASSWORD: dxdo wreq wymp cque
+      DEFAULT_MAIL: hyperhire_assignment@hyperhire.in
+      DEFAULT_SUBJECT: Chain Price Increased more than 3 %
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+volumes:
+  db_data:
